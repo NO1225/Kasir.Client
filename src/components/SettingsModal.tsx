@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react'
-import { Image } from 'react-native';
+import { Image, Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Modal, StyleSheet, View as DefaultView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { RootState } from '../redux';
 import { SelectCountry, UpdateSettingsModalShown } from '../redux/actions/personalizeActions';
 import { LoadWords } from '../redux/actions/wordsActions';
 import { FontSize } from '../shared/constants/FontSize';
+import { FontWeight } from '../shared/constants/FontWeight';
 import GlobalStyles from '../shared/constants/GlobalStyles';
 import Locale from '../shared/locales/Locale';
 import { LocaleType } from '../shared/types/ui';
@@ -17,6 +18,9 @@ import { ChangeLocale } from '../shared/types/utils/Helpers';
 import Button from './Form/Button';
 import { SelectInput } from './Form/SelectInput';
 import { Text, useThemeColor, View } from './Themed';
+
+const whatsappNo = "+96277000000";
+const email = "test@gmail.com";
 
 const SettingsModal = () => {
     const countryId = useSelector((state: RootState) => state.personalize.data.countryId)
@@ -35,17 +39,34 @@ const SettingsModal = () => {
         settingModalCancelable && dispatch(UpdateSettingsModalShown(false));
     }
 
-    const saveCountry = () => {
-        dispatch(SelectCountry(selectedCountry, () => {
+    const saveCountry = (countryId: number) => {
+        dispatch(SelectCountry(countryId, () => {
             dispatch(LoadWords())
+            setSelectedCountry(countryId)
         }))
+    }
+
+    const goToWhatsapp = () => {
+        hideModal();
+        Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=hello`);
+    }
+
+    const sendEmail = () => {
+        hideModal();
+        Linking.openURL(`mailto:${email}`)
     }
 
 
     const styles = StyleSheet.create({
         modalContainer: {
             backgroundColor: useThemeColor("baseColor")
-        }
+        },
+        separator: {
+            marginVertical: 15,
+            height: 1,
+            width: '80%',
+            alignSelf: 'center'
+        },
     })
 
 
@@ -128,11 +149,42 @@ const SettingsModal = () => {
                                 value: country.id,
                             }))}
                             selectedValue={selectedCountry}
-                            onSelectedChanged={setSelectedCountry}
+                            onSelectedChanged={saveCountry}
                         />
                     </DefaultView>
 
-                    <Button text={useLocale("settings.save")} onClick={saveCountry} />
+                    <View style={styles.separator} lightColor="#bbb" darkColor="rgba(255,255,255,0.1)" />
+
+                    <Text style={{
+                        textAlign: 'center',
+                        fontWeight: FontWeight.bold
+                    }}>{useLocale("settings.contactUs")}</Text>
+
+                    <DefaultView style={{
+                        width: "80%",
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                        alignSelf: 'center',
+                        marginVertical: 20,
+                    }}>
+                        <TouchableOpacity onPress={goToWhatsapp}>
+                            <MaterialCommunityIcons
+                                name="whatsapp"
+                                style={{
+                                    fontSize: 40,
+                                    color: "#367b3b"
+                                }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={sendEmail}>
+                            <MaterialCommunityIcons
+                                name="email"
+                                style={{
+                                    fontSize: 40,
+                                    color: "#367b3b"
+                                }} />
+                        </TouchableOpacity>
+                    </DefaultView>
+
                 </DefaultView>
             </DefaultView>
         </Modal>

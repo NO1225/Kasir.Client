@@ -8,6 +8,7 @@ export default {
     "main.header": "",
     "settings.language": "Select Language",
     "settings.country": "Select Country",
+    "settings.contactUs": "Contact Us",
     "settings.save": "Save",
 
   },
@@ -17,6 +18,7 @@ export default {
     "switch.language": "عربي",
     "settings.language": "اختر اللغة",
     "settings.country": "اختر البلد",
+    "settings.contactUs": "اتصل بنا",
     "settings.save": "حفظ",
 
   },
@@ -26,6 +28,7 @@ export default {
     "switch.language": "española",
     "settings.language": "Seleccione el idioma",
     "settings.country": "Seleccionar país",
+    "settings.contactUs": "Contacta con nosotras",
     "settings.save": "Ahorrar",
 
   },
@@ -35,6 +38,7 @@ export default {
     "switch.language": "française",
     "settings.language": "Choisir la langue",
     "settings.country": "Choisissez le pays",
+    "settings.contactUs": "Nous contacter",
     "settings.save": "Sauvegarder",
 
   },
