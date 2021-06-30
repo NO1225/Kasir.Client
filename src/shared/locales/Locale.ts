@@ -11,6 +11,11 @@ export default {
     "settings.contactUs": "Contact Us",
     "settings.save": "Save",
 
+    "emptyList": "This list has no items ...",
+    "search": "Search",
+    "copy.message": "Word Copied!!",
+    "enter": "Enter!!",
+
   },
   ar: {
     direction: "rtl",
@@ -20,6 +25,11 @@ export default {
     "settings.country": "اختر البلد",
     "settings.contactUs": "اتصل بنا",
     "settings.save": "حفظ",
+
+    "emptyList": "هذه القائمة فارغة من المحتويات ...",
+    "search": "بحث",
+    "copy.message": "تم نسخ الكلمة!!",
+    "enter": "الاستمرار!!",
 
   },
   sp: {
@@ -31,6 +41,11 @@ export default {
     "settings.contactUs": "Contacta con nosotras",
     "settings.save": "Ahorrar",
 
+    "emptyList": "Esta lista no tiene elementos ...",
+    "search": "Buscar",
+    "copy.message": "Palabra copiada !!",
+    "enter": "Ingresar!!",
+
   },
   fr: {
     direction: "ltr",
@@ -40,6 +55,11 @@ export default {
     "settings.country": "Choisissez le pays",
     "settings.contactUs": "Nous contacter",
     "settings.save": "Sauvegarder",
+
+    "emptyList": "Cette liste ne contient aucun élément...",
+    "search": "Rechercher",
+    "copy.message": "Mot copié !!",
+    "enter": "Entrer!!",
 
   },
 };

@@ -1,4 +1,5 @@
 import { combineReducers } from "redux"
+import { AppInfoReducer } from "./appInfoReducer";
 import { CountriesReducer } from "./countriesReducer";
 import { LanguagesReducer } from "./languagesReducer";
 
@@ -10,6 +11,7 @@ export const rootReducer = combineReducers({
     languages: LanguagesReducer,
     countries: CountriesReducer,
     words: WordsReducer,
+    appInfo: AppInfoReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>;

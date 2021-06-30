@@ -78,18 +78,20 @@ const SettingsModal = () => {
         >
             <DefaultView style={{
                 flex: 1,
-                justifyContent: 'center'
+                justifyContent: settingModalCancelable ? 'center' : undefined,
             }}>
                 <DefaultView style={[
                     styles.modalContainer,
                     GlobalStyles.Shadow5,
                     {
-                        margin: 20,
+                        flex: settingModalCancelable ? undefined : 1,
+                        margin: settingModalCancelable ? 20 : 0,
                         paddingVertical: 20,
-                        borderRadius: 10,
+                        justifyContent: 'center',
+                        borderRadius: settingModalCancelable ? 10 : 0,
                     }]}>
 
-                    <DefaultView style={{
+                    {settingModalCancelable && <DefaultView style={{
                         paddingHorizontal: '5%',
                         alignItems: 'flex-end',
                         marginTop: -10
@@ -97,7 +99,7 @@ const SettingsModal = () => {
                         <TouchableOpacity onPress={hideModal}>
                             <MaterialCommunityIcons name="close" size={FontSize.xxLarge} />
                         </TouchableOpacity>
-                    </DefaultView>
+                    </DefaultView>}
                     <DefaultView style={{ paddingHorizontal: '5%' }}>
                         <Text>{useLocale("settings.language")}</Text>
                     </DefaultView>
@@ -107,6 +109,7 @@ const SettingsModal = () => {
                     }}>
                         {languages.map(lang => (
                             <TouchableOpacity
+                                activeOpacity={0.8}
                                 style={{
                                     width: "40%",
                                     marginHorizontal: "5%",

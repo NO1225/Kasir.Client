@@ -11,6 +11,73 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Ca
 
 import * as moment from 'moment';
 
+export interface IAppInfoClient {
+    info(languageId?: number | undefined): Promise<ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>;
+}
+
+export class AppInfoClient implements IAppInfoClient {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    info(languageId?: number | undefined , cancelToken?: CancelToken | undefined): Promise<ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        let url_ = this.baseUrl + "/api/AppInfo/Info?";
+        if (languageId === null)
+            throw new Error("The parameter 'languageId' cannot be null.");
+        else if (languageId !== undefined)
+            url_ += "LanguageId=" + encodeURIComponent("" + languageId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processInfo(_response);
+        });
+    }
+
+    protected processInfo(response: AxiosResponse): Promise<ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
+    }
+}
+
 export interface ICountriesClient {
     getAll(languageId?: number | undefined): Promise<ServiceResult_1OfOfList_1OfOfCountryAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e>;
 }
@@ -317,6 +384,113 @@ export interface IServiceResult {
     error: ServiceError | undefined;
 }
 
+export class ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null extends ServiceResult implements IServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null {
+    data!: AppInfo | undefined;
+
+    constructor(data?: IServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null) {
+        super(data);
+    }
+
+    init(_data?: any, _mappings?: any) {
+        super.init(_data);
+        if (_data) {
+            this.data = _data["data"] ? AppInfo.fromJS(_data["data"], _mappings) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>(data, _mappings, ServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null extends IServiceResult {
+    data: AppInfo | undefined;
+}
+
+export class AppInfo implements IAppInfo {
+    title!: string | undefined;
+    description!: string | undefined;
+
+    constructor(data?: IAppInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): AppInfo | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<AppInfo>(data, _mappings, AppInfo);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        return data; 
+    }
+}
+
+export interface IAppInfo {
+    title: string | undefined;
+    description: string | undefined;
+}
+
+export class ServiceError implements IServiceError {
+    message!: string | undefined;
+    code!: number;
+
+    constructor(data?: IServiceError) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.message = _data["message"];
+            this.code = _data["code"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): ServiceError | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<ServiceError>(data, _mappings, ServiceError);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["message"] = this.message;
+        data["code"] = this.code;
+        return data; 
+    }
+}
+
+export interface IServiceError {
+    message: string | undefined;
+    code: number;
+}
+
 export class ServiceResult_1OfOfList_1OfOfCountryAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e extends ServiceResult implements IServiceResult_1OfOfList_1OfOfCountryAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e {
     data!: Country[] | undefined;
 
@@ -400,44 +574,6 @@ export interface ICountry {
     name: string | undefined;
     imagePath: string | undefined;
     createDate: moment.Moment;
-}
-
-export class ServiceError implements IServiceError {
-    message!: string | undefined;
-    code!: number;
-
-    constructor(data?: IServiceError) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any, _mappings?: any) {
-        if (_data) {
-            this.message = _data["message"];
-            this.code = _data["code"];
-        }
-    }
-
-    static fromJS(data: any, _mappings?: any): ServiceError | null {
-        data = typeof data === 'object' ? data : {};
-        return createInstance<ServiceError>(data, _mappings, ServiceError);
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["message"] = this.message;
-        data["code"] = this.code;
-        return data; 
-    }
-}
-
-export interface IServiceError {
-    message: string | undefined;
-    code: number;
 }
 
 export class ServiceResult_1OfOfList_1OfOfLanguageAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e extends ServiceResult implements IServiceResult_1OfOfList_1OfOfLanguageAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e {
@@ -715,6 +851,7 @@ export interface IServiceResult_1OfOfList_1OfOfWordAndApplicationAnd_0AndCulture
 
 export class Word implements IWord {
     id!: number;
+    title!: string | undefined;
     name!: string | undefined;
     information!: string | undefined;
     imageName!: string | undefined;
@@ -732,6 +869,7 @@ export class Word implements IWord {
     init(_data?: any, _mappings?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.title = _data["title"];
             this.name = _data["name"];
             this.information = _data["information"];
             this.imageName = _data["imageName"];
@@ -747,6 +885,7 @@ export class Word implements IWord {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["title"] = this.title;
         data["name"] = this.name;
         data["information"] = this.information;
         data["imageName"] = this.imageName;
@@ -757,6 +896,7 @@ export class Word implements IWord {
 
 export interface IWord {
     id: number;
+    title: string | undefined;
     name: string | undefined;
     information: string | undefined;
     imageName: string | undefined;

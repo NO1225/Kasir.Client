@@ -17,15 +17,12 @@ import { Text, useThemeColor } from '../components/Themed';
 import ensureLanguageDirection from '../hooks/ensureLanguageDirection';
 import { RootState } from '../redux';
 import { UpdateSettingsModalShown } from '../redux/actions/personalizeActions';
+import AppInfoScreen from '../screens/AppInfoScreen';
 
 import HomeScreen from '../screens/HomeScreen';
 import { FontSize } from '../shared/constants/FontSize';
 import LinkingConfiguration from './LinkingConfiguration';
 
-export type RootStackParamList = {
-  Root: undefined;
-  NotFound: undefined;
-};
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,6 +33,13 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     </NavigationContainer>
   );
 }
+
+
+export type RootStackParamList = {
+  Root: undefined;
+  Home: undefined;
+  NotFound: undefined;
+};
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
@@ -52,7 +56,39 @@ function RootNavigator() {
   const countryId = useSelector((state: RootState) => state.personalize.data.countryId)
 
   return (
-    <Stack.Navigator >
+    <Stack.Navigator
+      initialRouteName="Root"
+    >
+      <Stack.Screen name="Home"
+        options={{
+          headerTitleContainerStyle: {
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+          headerTitle: "",
+          headerRight: () => <TouchableOpacity
+            style={{
+              paddingHorizontal: 15
+            }}
+            onPress={showSettings}>
+            <MaterialCommunityIcons
+              name="cogs"
+              color={useThemeColor("brandColor")}
+              size={FontSize.xxxxLarge} />
+          </TouchableOpacity>,
+          headerLeft: () => <View
+            style={{
+              paddingHorizontal: 15
+            }}>
+            <Image
+              resizeMode="contain"
+              style={{
+                width: FontSize.xxxxLarge,
+                height: FontSize.xxxxLarge,
+              }}
+              source={{ uri: getPicture(countries.find(c => c.id == countryId)?.imagePath ?? '') }} /></View>,
+        }}
+        component={HomeScreen} />
       <Stack.Screen name="Root"
         options={{
           headerTitleContainerStyle: {
@@ -75,13 +111,14 @@ function RootNavigator() {
               paddingHorizontal: 15
             }}>
             <Image
+              resizeMode="contain"
               style={{
                 width: FontSize.xxxxLarge,
                 height: FontSize.xxxxLarge,
               }}
               source={{ uri: getPicture(countries.find(c => c.id == countryId)?.imagePath ?? '') }} /></View>,
         }}
-        component={HomeScreen} />
+        component={AppInfoScreen} />
     </Stack.Navigator>
   );
 }
