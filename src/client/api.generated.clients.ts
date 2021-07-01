@@ -275,6 +275,73 @@ export class Client implements IClient {
     }
 }
 
+export interface IAuthClient {
+    addPushToken(command: CreatePushTokenCommand): Promise<ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>;
+}
+
+export class AuthClient implements IAuthClient {
+    private instance: AxiosInstance;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+        this.instance = instance ? instance : axios.create();
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    addPushToken(command: CreatePushTokenCommand , cancelToken?: CancelToken | undefined): Promise<ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        let url_ = this.baseUrl + "/api/Auth/AddPushToken";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ = <AxiosRequestConfig>{
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddPushToken(_response);
+        });
+    }
+
+    protected processAddPushToken(response: AxiosResponse): Promise<ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        let _mappings: { source: any, target: any }[] = [];
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null.fromJS(resultData200, _mappings);
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>(<any>null);
+    }
+}
+
 export interface IWordsClient {
     getAll(languageId?: number | undefined, countryId?: number | undefined): Promise<ServiceResult_1OfOfList_1OfOfWordAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e>;
 }
@@ -808,6 +875,105 @@ export class GetTokenQuery implements IGetTokenQuery {
 export interface IGetTokenQuery {
     email: string | undefined;
     password: string | undefined;
+}
+
+export class ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null extends ServiceResult implements IServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null {
+    data!: PushToken | undefined;
+
+    constructor(data?: IServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null) {
+        super(data);
+    }
+
+    init(_data?: any, _mappings?: any) {
+        super.init(_data);
+        if (_data) {
+            this.data = _data["data"] ? PushToken.fromJS(_data["data"], _mappings) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null>(data, _mappings, ServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IServiceResult_1OfOfPushTokenAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_null extends IServiceResult {
+    data: PushToken | undefined;
+}
+
+export class PushToken implements IPushToken {
+    token!: string | undefined;
+
+    constructor(data?: IPushToken) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): PushToken | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<PushToken>(data, _mappings, PushToken);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        return data; 
+    }
+}
+
+export interface IPushToken {
+    token: string | undefined;
+}
+
+export class CreatePushTokenCommand implements ICreatePushTokenCommand {
+    token!: string | undefined;
+
+    constructor(data?: ICreatePushTokenCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any, _mappings?: any) {
+        if (_data) {
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any, _mappings?: any): CreatePushTokenCommand | null {
+        data = typeof data === 'object' ? data : {};
+        return createInstance<CreatePushTokenCommand>(data, _mappings, CreatePushTokenCommand);
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        return data; 
+    }
+}
+
+export interface ICreatePushTokenCommand {
+    token: string | undefined;
 }
 
 export class ServiceResult_1OfOfList_1OfOfWordAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e extends ServiceResult implements IServiceResult_1OfOfList_1OfOfWordAndApplicationAnd_0AndCulture_neutralAndPublicKeyToken_nullAndCoreLibAnd_0AndCulture_neutralAndPublicKeyToken_7cec85d7bea7798e {

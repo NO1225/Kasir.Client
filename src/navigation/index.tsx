@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Image } from 'react-native';
@@ -16,6 +17,7 @@ import { getPicture } from '../client/RequestHelpers';
 import { Text, useThemeColor } from '../components/Themed';
 import ensureLanguageDirection from '../hooks/ensureLanguageDirection';
 import { RootState } from '../redux';
+import { SetPushToken } from '../redux/actions/appInfoActions';
 import { UpdateSettingsModalShown } from '../redux/actions/personalizeActions';
 import AppInfoScreen from '../screens/AppInfoScreen';
 
@@ -55,6 +57,12 @@ function RootNavigator() {
   const countries = useSelector((state: RootState) => state.countries.data);
   const countryId = useSelector((state: RootState) => state.personalize.data.countryId)
 
+  useEffect(() => {
+    dispatch(SetPushToken());
+    return () => {
+
+    }
+  }, [])
   return (
     <Stack.Navigator
       initialRouteName="Root"
