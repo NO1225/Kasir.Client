@@ -10,17 +10,15 @@ export const LoadWords = (onSuccess?: () => Promise<void> | void) => {
     return async (dispatch: Dispatch<WordsAction>) => {
         try {
             dispatch({ type: UPDATE_LOADING, payload: true });
-            let languageId = await AsyncStorage.getItem(LANGUAGE_ID) ?? '1';
-            let countryId = await AsyncStorage.getItem(COUNTRY_ID) ?? '1';
+            let languageId = await AsyncStorage.getItem(LANGUAGE_ID);
+            let countryId = await AsyncStorage.getItem(COUNTRY_ID);
 
             let res = await new WordsClient(undefined, client).getAll(
-                parseInt(languageId),
-                parseInt(countryId)
+                parseInt(languageId ?? '1'),
+                parseInt(countryId ?? '1')
             );
 
             if (res.succeeded && res.data) {
-                let locale = await AsyncStorage.getItem(LOCALE) ?? "en";
-                await AsyncStorage.setItem(LANGUAGE_ID, res.data.find(l => l.name == locale)?.id + '')
                 dispatch({ type: LOAD_WORDS, payload: res.data });
 
                 onSuccess && onSuccess();

@@ -40,11 +40,7 @@ export const SetPushToken = (onSuccess?: () => Promise<void> | void) => {
             let pushToken = await AsyncStorage.getItem(PUSH_TOKEN) ?? '';
 
             let command = new CreatePushTokenCommand({ token: pushToken });
-            console.log(command);
-
             let res = await new AuthClient(undefined, client).addPushToken(command);
-
-            console.log(res);
         } catch (error) {
             handleError(error)
         }

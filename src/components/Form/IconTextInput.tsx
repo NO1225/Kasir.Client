@@ -18,7 +18,7 @@ export type TextInputProps = {
     icon: Icon,
 } & DefaultTextInput['props'];
 
-export function IconTextInput(props: TextInputProps) {
+export function  IconTextInput(props: TextInputProps) {
     const { style, ...otherProps } = props;
     const fontSize = FontSize.Regular;
 
@@ -46,7 +46,7 @@ export function IconTextInput(props: TextInputProps) {
                     fontSize,
                     flex: 1,
                     color: useThemeColor("text"),
-                    textAlign: useLocale('direction', { ar: "right", en: "left" })
+                    textAlign: useLocale('direction') == "ltr" ? "left":"right",  
                 } as StyleProp<TextStyle>,
                     style]}
                 {...otherProps} />
