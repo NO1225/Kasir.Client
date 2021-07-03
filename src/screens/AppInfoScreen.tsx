@@ -1,27 +1,17 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Image, View as DefaultView } from 'react-native';
+import { Image, ScrollView, View as DefaultView } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPicture } from '../client/RequestHelpers';
-import CustomFlatList from '../components/CustomFlatList';
-import { TextInput } from '../components/Form/TextInput';
-import SettingsModal from '../components/SettingsModal';
 
 import { Text, useThemeColor, View } from '../components/Themed';
 import { RootState } from '../redux';
 import { LoadCountries } from '../redux/actions/countriesActions';
 import { LoadLanguages } from '../redux/actions/languagesActions';
-import { LoadWords } from '../redux/actions/wordsActions';
 import { FontSize } from '../shared/constants/FontSize';
-import GlobalStyles from '../shared/constants/GlobalStyles';
-import Clipboard from 'expo-clipboard';
-import { showMessage } from 'react-native-flash-message';
-import { IconTextInput } from '../components/Form/IconTextInput';
 import { useLocale } from '../hooks/useLocale';
 import { FontWeight } from '../shared/constants/FontWeight';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LoadAppInfo } from '../redux/actions/appInfoActions';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -83,7 +73,7 @@ export default function AppInfoScreen() {
           source={require('../../assets/images/WelcomeLogo.png')} />
       </View>
 
-      <View style={{
+      <ScrollView style={{
         alignSelf: 'stretch',
         marginTop: 20,
         paddingHorizontal: 20,
@@ -103,12 +93,18 @@ export default function AppInfoScreen() {
             fontWeight: FontWeight.bold,
             paddingVertical: 20,
           }}>{appInfo.description}</Text>
-      </View>
+      </ScrollView>
 
 
       <TouchableOpacity
         style={{
-          paddingBottom: 30,
+          margin: 10,
+          marginHorizontal: 20,
+          padding: 15,
+          borderRadius: 10,
+          marginBottom: 30,
+          alignSelf: 'stretch',
+          backgroundColor: useThemeColor("brandColor"),
         }}
         onPress={goToWords}>
         <Text
@@ -116,9 +112,7 @@ export default function AppInfoScreen() {
             textAlign: 'center',
             fontSize: FontSize.Large,
             fontWeight: FontWeight.bold,
-            borderBottomWidth: 2,
-            color: useThemeColor("brandColor"),
-            borderBottomColor: useThemeColor("brandColor")
+            color: "#fff",
           }}>{useLocale("enter")}</Text>
       </TouchableOpacity>
     </View>

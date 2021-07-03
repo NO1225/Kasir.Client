@@ -9,7 +9,7 @@ import CustomFlatList from '../components/CustomFlatList';
 import { TextInput } from '../components/Form/TextInput';
 import SettingsModal from '../components/SettingsModal';
 
-import { Text, View } from '../components/Themed';
+import { Text, useThemeColor, View } from '../components/Themed';
 import { RootState } from '../redux';
 import { LoadCountries } from '../redux/actions/countriesActions';
 import { LoadLanguages } from '../redux/actions/languagesActions';
@@ -53,7 +53,7 @@ export default function HomeScreen() {
     showMessage({
       message: useLocale("copy.message"),
       type: 'success',
-      backgroundColor: 'green',
+      backgroundColor: '#172e6a',
       color: '#fff',
       position: "bottom",
       style: {
@@ -68,6 +68,7 @@ export default function HomeScreen() {
   }
 
 
+  const brandColor = useThemeColor("brandColor")
 
   useEffect(() => {
     dispatch(LoadLanguages(() => {
@@ -114,7 +115,7 @@ export default function HomeScreen() {
       </View>
 
       <CustomFlatList
-        data={words.filter(w => w.name?.includes(filterWord))}
+        data={words.filter(w => w.name?.includes(filterWord) || w.title?.includes(filterWord) || w.information?.includes(filterWord))}
         keyExtractor={(word) => word.id + ''}
         renderItem={({ item, index }) => (
 
@@ -159,21 +160,50 @@ export default function HomeScreen() {
 
               <DefaultView style={{
                 alignSelf: 'stretch',
-                alignItems: 'center',
                 flexDirection: 'row',
-                justifyContent: 'space-between'
               }} >
-                <Text style={{
-                  textAlign: 'center',
-                  fontWeight: FontWeight.bold,
-                  fontSize: FontSize.xxxLarge
-                }}>{item.name}</Text>
 
-                <TouchableOpacity onPress={() => copyWord(item.name ?? '')}>
-                  <MaterialCommunityIcons
-                    size={FontSize.xxxxxLarge}
-                    name="content-copy" />
+                <DefaultView style={{
+                  alignSelf: 'stretch',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1,
+                  borderTopWidth: 1,
+                  borderBottomWidth: 1,
+                  borderLeftWidth: 1,
+                  borderColor: brandColor
+
+                }} >
+
+                  <Text style={{
+                    textAlign: 'center',
+                    fontWeight: FontWeight.bold,
+                    fontSize: FontSize.xxxLarge
+                  }}>{item.name}</Text>
+
+                </DefaultView>
+                <TouchableOpacity
+                  onPress={() => copyWord(item.name ?? "")}
+                  activeOpacity={0.8}
+                  style={{
+                    alignSelf: 'stretch',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: brandColor,
+                    borderWidth: 1,
+                    borderColor: brandColor
+                  }} >
+
+                  <Text
+                    style={{
+                      margin: 10,
+                      textAlign: 'center',
+                      fontWeight: FontWeight.regular,
+                      fontSize: FontSize.Large,
+                      color: "#fff"
+                    }}>{useLocale("copy")}</Text>
                 </TouchableOpacity>
+
               </DefaultView>
 
               <Text style={{

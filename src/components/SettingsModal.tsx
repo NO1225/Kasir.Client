@@ -19,11 +19,12 @@ import Button from './Form/Button';
 import { SelectInput } from './Form/SelectInput';
 import { Text, useThemeColor, View } from './Themed';
 
-const whatsappNo = "+96277000000";
-const email = "test@gmail.com";
+// const whatsappNo = "+96277000000";
+const email = "barl.kasir@gmail.com";
 
 const SettingsModal = () => {
     const countryId = useSelector((state: RootState) => state.personalize.data.countryId)
+    const currentLocale = useSelector((state: RootState) => state.personalize.data.locale)
 
     const [selectedCountry, setSelectedCountry] = useState(countryId);
 
@@ -46,10 +47,11 @@ const SettingsModal = () => {
         }))
     }
 
-    const goToWhatsapp = () => {
-        hideModal();
-        Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=hello`);
-    }
+    const highlightedButton = useThemeColor("tabIconDefault");
+    // const goToWhatsapp = () => {
+    //     hideModal();
+    //     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=hello`);
+    // }
 
     const sendEmail = () => {
         hideModal();
@@ -109,6 +111,7 @@ const SettingsModal = () => {
                     }}>
                         {languages.map(lang => (
                             <TouchableOpacity
+                                disabled={lang.name == currentLocale}
                                 activeOpacity={0.8}
                                 style={{
                                     width: "40%",
@@ -125,7 +128,11 @@ const SettingsModal = () => {
                                         padding: 5,
                                         paddingHorizontal: 10,
                                         borderRadius: 10
-                                    }]}>
+                                    },
+                                    lang.name == currentLocale && {
+                                        backgroundColor: highlightedButton
+                                    }
+                                ]}>
                                     <Image
                                         resizeMode="contain"
                                         style={{
@@ -156,7 +163,8 @@ const SettingsModal = () => {
                         />
                     </DefaultView>
 
-                    <View style={styles.separator} lightColor="#bbb" darkColor="rgba(255,255,255,0.1)" />
+                    <View style={styles.separator} lightColor="#bbb"
+                        darkColor="rgba(255,255,255,0.1)" />
 
                     <Text style={{
                         textAlign: 'center',
@@ -170,20 +178,20 @@ const SettingsModal = () => {
                         alignSelf: 'center',
                         marginVertical: 20,
                     }}>
-                        <TouchableOpacity onPress={goToWhatsapp}>
+                        {/* <TouchableOpacity onPress={goToWhatsapp}>
                             <MaterialCommunityIcons
                                 name="whatsapp"
                                 style={{
                                     fontSize: 40,
-                                    color: "#367b3b"
+                                    color: useThemeColor("brandColor")
                                 }} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity onPress={sendEmail}>
                             <MaterialCommunityIcons
                                 name="email"
                                 style={{
                                     fontSize: 40,
-                                    color: "#367b3b"
+                                    color: useThemeColor("brandColor")
                                 }} />
                         </TouchableOpacity>
                     </DefaultView>
