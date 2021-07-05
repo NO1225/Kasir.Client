@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react'
-import { StyleSheet, Text, useColorScheme, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import FlashMessage from 'react-native-flash-message';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SettingsModal from './components/SettingsModal';
+import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
 export default function Entry() {

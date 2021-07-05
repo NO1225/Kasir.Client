@@ -24,20 +24,12 @@ import { FontWeight } from '../shared/constants/FontWeight';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const lightCardColors = [
-  "#C6D2CE",
-  "#DAA49A",
-  "#95D9C3",
-  "#A4F9C8",
-  "#A7FFF6",
-  "#FFB8D1",
+  "#FFFFE0",
+  "#FFF",
 ]
 const darkCardColors = [
-  "#4E6713",
-  "#7A0058",
-  "#9D1B28",
-  "#426176",
-  "#2D1E2F",
-  "#185477",
+  "#00001f",
+  "#000",
 ]
 
 export default function HomeScreen() {
@@ -47,7 +39,6 @@ export default function HomeScreen() {
 
   const words = useSelector((state: RootState) => state.words.data)
   const [currentSearchText, setCurrentSearchText] = useState("");
-  const [filterWord, setFilterWord] = useState("");
   const copyWord = (word: string) => {
     Clipboard.setString(word)
     showMessage({
@@ -62,11 +53,6 @@ export default function HomeScreen() {
       }
     });
   }
-
-  const filter = () => {
-    setFilterWord(currentSearchText);
-  }
-
 
   const brandColor = useThemeColor("brandColor")
 
@@ -106,16 +92,14 @@ export default function HomeScreen() {
       <View style={{
         paddingHorizontal: 20,
       }}>
-        <IconTextInput
+        <TextInput
           value={currentSearchText}
           onChangeText={setCurrentSearchText}
-          placeholder={useLocale("search")}
-          icon="text-search"
-          onPress={filter} />
+          placeholder={useLocale("search")} />
       </View>
 
       <CustomFlatList
-        data={words.filter(w => w.name?.includes(filterWord) || w.title?.includes(filterWord) || w.information?.includes(filterWord))}
+        data={words.filter(w => w.title?.includes(currentSearchText))}
         keyExtractor={(word) => word.id + ''}
         renderItem={({ item, index }) => (
 

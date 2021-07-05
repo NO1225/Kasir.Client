@@ -485,6 +485,8 @@ export interface IServiceResult_1OfOfAppInfoAndApplicationAnd_0AndCulture_neutra
 export class AppInfo implements IAppInfo {
     title!: string | undefined;
     description!: string | undefined;
+    disclaimer!: string | undefined;
+    welcome!: string | undefined;
 
     constructor(data?: IAppInfo) {
         if (data) {
@@ -499,6 +501,8 @@ export class AppInfo implements IAppInfo {
         if (_data) {
             this.title = _data["title"];
             this.description = _data["description"];
+            this.disclaimer = _data["disclaimer"];
+            this.welcome = _data["welcome"];
         }
     }
 
@@ -511,6 +515,8 @@ export class AppInfo implements IAppInfo {
         data = typeof data === 'object' ? data : {};
         data["title"] = this.title;
         data["description"] = this.description;
+        data["disclaimer"] = this.disclaimer;
+        data["welcome"] = this.welcome;
         return data; 
     }
 }
@@ -518,6 +524,8 @@ export class AppInfo implements IAppInfo {
 export interface IAppInfo {
     title: string | undefined;
     description: string | undefined;
+    disclaimer: string | undefined;
+    welcome: string | undefined;
 }
 
 export class ServiceError implements IServiceError {

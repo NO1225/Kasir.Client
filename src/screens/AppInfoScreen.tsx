@@ -89,6 +89,20 @@ export default function AppInfoScreen() {
         <Text
           style={{
             textAlign: 'center',
+            fontSize: FontSize.xxxxLarge,
+            fontWeight: FontWeight.bold,
+            paddingVertical: 20,
+          }}>{appInfo.welcome}</Text>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: FontSize.xxLarge,
+            fontWeight: FontWeight.bold
+          }}
+        >{appInfo.disclaimer}</Text>
+        <Text
+          style={{
+            textAlign: 'center',
             fontSize: FontSize.Large,
             fontWeight: FontWeight.bold,
             paddingVertical: 20,

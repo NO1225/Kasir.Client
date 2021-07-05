@@ -13,7 +13,7 @@ export default {
 
     "emptyList": "This list has no items ...",
     "search": "Search",
-    "copy": "copy",
+    "copy": "Copy",
     "copy.message": "Code Copied!!",
     "enter": "Continue",
 
@@ -21,7 +21,7 @@ export default {
   ar: {
     direction: "rtl",
     etc: "",
-    "switch.language": "عربي",
+    "switch.language": "العربية",
     "settings.language": "اللغة",
     "settings.country": "الدولة",
     "settings.contactUs": "اتصل بنا",
@@ -45,7 +45,7 @@ export default {
 
     "emptyList": "Cette liste ne contient aucun élément...",
     "search": "Rechercher",
-    "copy": "copie",
+    "copy": "Copier",
     "copy.message": "Code copié!!",
     "enter": "Continuer",
 
