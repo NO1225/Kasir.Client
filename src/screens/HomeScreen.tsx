@@ -24,12 +24,10 @@ import { FontWeight } from '../shared/constants/FontWeight';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const lightCardColors = [
-  "#FFFFE0",
-  "#FFF",
+  "#F2C549",
 ]
 const darkCardColors = [
   "#00001f",
-  "#000",
 ]
 
 export default function HomeScreen() {
